@@ -11,7 +11,7 @@ config.rawError = true;
 class User extends VuexModule {
   public data: UserType | null = null;
   public profile: ProfileType | null = null;
-  public profileObserver: Function | null = null;
+  public profileObserver: ( ) => void = () => {/**/};
 
   constructor(module: any) {
     super(module);
@@ -56,16 +56,16 @@ class User extends VuexModule {
   }
 
   @Action
-  public getCurrentUser (): Promise<LoginType> {
+  public getCurrentUser (): Promise<UserType> {
     return new Promise((resolve, reject) => {
       const unsubscribe = FbAuth.onAuthStateChanged(async user => {
-        let response: Record<string, any> | null = null;
+        let response: UserType | null = null;
         unsubscribe(); // remove observer(see Firebase api);
 
         if (user) {
           const { displayName, email, emailVerified, metadata, phoneNumber, refreshToken, uid }  = user;
 
-          response = new Object({
+          response = {
             email,
             displayName,
             emailVerified,
@@ -73,7 +73,7 @@ class User extends VuexModule {
             phoneNumber,
             refreshToken,
             uid
-          })
+          }!
         }
         resolve(response);
       }, reject);
@@ -87,7 +87,7 @@ class User extends VuexModule {
       const { user } = await FbAuth.signInWithEmailAndPassword(email, password);
       const { displayName, emailVerified, metadata, phoneNumber, refreshToken, uid }  = user!;
       if (user) {
-        // await this.context.dispatch('userObserver', email);
+        await this.context.dispatch('userObserver', email);
 
         return {
           displayName,
@@ -109,7 +109,7 @@ class User extends VuexModule {
   @Action({ commit: 'setProfile' })
   public async signout() {
     try {
-      if (this.profileObserver) this.context.state.profileObserver(); // dejamos de observar el perfil del usuario
+      this.profileObserver(); // dejamos de observar el perfil del usuario
       await firebase.auth!().signOut!();
       sessionStorage.clear();
 

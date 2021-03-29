@@ -39,7 +39,7 @@ export interface UserType {
     phoneNumber?: string;
     refreshToken?: string;
     uid?: string;
-    photoUrl: string | null;
+    photoUrl?: string;
     birthday?: Date;
 }
 
