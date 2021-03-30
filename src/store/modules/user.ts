@@ -80,6 +80,7 @@ class User extends VuexModule {
     })
   }
 
+
   @Action({ commit: 'setProfile' })
   public async signin(request: LoginType) {
     try {

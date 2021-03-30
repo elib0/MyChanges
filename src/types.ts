@@ -35,7 +35,7 @@ export interface UserType {
     displayName: string | null;
     email?: string;
     emailVerified?: boolean;
-    metadata?: object;
+    metadata?: any;
     phoneNumber?: string;
     refreshToken?: string;
     uid?: string;

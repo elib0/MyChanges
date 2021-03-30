@@ -6,7 +6,7 @@
         md="4"
     >
       <div class="text-center">
-        <img width="350px" src="@/assets/images/logo.svg" alt="logo">
+<!--        <img width="350px" src="@/assets/images/logo.svg" alt="logo">-->
       </div>
       <v-card elevation="5" color="transparent">
         <v-toolbar dense dark>
